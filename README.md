@@ -28,6 +28,17 @@ Browser (index.html + script.js)  --POST /api/<action>-->  Java backend  --JSON-
 If the backend runs on another address or port, change `API_URL` at the top of `script.js`.
 The port can be changed with the `PORT` environment variable.
 
+## Demo mode (GitHub Pages)
+
+GitHub Pages cannot run Java. When the Java backend cannot be reached - for example when the site is
+opened from its `github.io` link - the page switches to **demo mode** (`demo.js`): a small copy of the
+backend that runs inside the browser, so the whole site still works. A yellow banner is shown in demo
+mode, and its data is stored in that browser only.
+
+When the Java backend is running (and the page is opened from your computer), the page uses Java
+and no banner is shown. Use the Java backend for the project demo / viva; `demo.js` is only there so
+the hosted link is not empty.
+
 ## How to use the website
 
 1. **Home** - browse the movies, filter by language / genre, or search by name / genre.
@@ -55,5 +66,5 @@ the web server.
 - Administrator password: `admin123` (checked by the backend)
 - Ticket price is fixed at Rs. 250
 - Data is kept in memory (like the `ArrayList`s), so it resets when the backend is restarted
-- GitHub Pages can host only the front end. The Java backend must run on your computer or on a
-  Java hosting service, and `API_URL` must point to it.
+- GitHub Pages can host only the front end (it uses demo mode, see above). To use the real Java
+  backend online, run it on a Java hosting service and set `API_URL` in `script.js` to its https address.

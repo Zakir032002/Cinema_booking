@@ -84,13 +84,30 @@ const rupee = amount => "₹" + amount;
 
 // ================= Talking to the backend =================
 
+// Demo mode = the page runs a copy of the backend in the browser (demo.js).
+// It is used only when the Java backend cannot be reached. An https page (such as GitHub Pages)
+// cannot call a backend on "localhost", so it starts in demo mode directly.
+let demoMode = location.protocol === "https:" && API_URL.startsWith("http://localhost");
+
+function showDemoBanner() {
+  $("demoBanner").hidden = false;
+}
+
 // POST <API_URL>/api/<action>  ->  JSON answer
 async function api(action, values) {
-  const response = await fetch(API_URL + "/api/" + action, {
-    method: "POST",
-    body: new URLSearchParams(values || {})
-  });
-  return response.json();
+  if (!demoMode) {
+    try {
+      const response = await fetch(API_URL + "/api/" + action, {
+        method: "POST",
+        body: new URLSearchParams(values || {})
+      });
+      return await response.json();
+    } catch (error) {
+      demoMode = true; // Java backend not reachable: switch to demo mode
+    }
+  }
+  showDemoBanner();
+  return window.demoApi(action, values);
 }
 
 // Load movies, screens, free seats and the ticket price
