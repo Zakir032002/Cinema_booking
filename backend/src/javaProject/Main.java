@@ -60,10 +60,13 @@ public class Main {
         int status = 200;
         String json;
         try {
+            Map<String, String> form = parseForm(readBody(exchange));
             if (action.equals("options")) {
                 json = optionsJson();
+            } else if (action.equals("seats")) {
+                json = seatsJson(form.get("screen"));
             } else {
-                Result result = handle(action, parseForm(readBody(exchange)));
+                Result result = handle(action, form);
                 if (result == null) {
                     status = 404;
                     result = Result.fail("Unknown action: " + action);
@@ -159,9 +162,24 @@ public class Main {
         }
     }
 
-    // Movie and screen names for the drop-downs of the booking form
+    // Seat map of one screen: total seats and the seat numbers that are already booked
+    static String seatsJson(String screenName) {
+        Screen screen = Screen.findScreenByName(screenList, screenName);
+        if (screen == null) {
+            return Result.fail("Screen not found.").toJson();
+        }
+        StringBuilder sb = new StringBuilder("{\"ok\":true,\"total\":" + screen.getTotalSeats() + ",\"booked\":[");
+        ArrayList<String> booked = Booking.bookedSeats(bookingList, screen.getScreenType());
+        for (int i = 0; i < booked.size(); i++) {
+            if (i > 0) sb.append(",");
+            sb.append(Result.quote(booked.get(i)));
+        }
+        return sb.append("]}").toString();
+    }
+
+    // Ticket price (so the page does not need its own copy)
     static String optionsJson() {
-        StringBuilder sb = new StringBuilder("{\"movies\":[");
+        StringBuilder sb = new StringBuilder("{\"price\":" + (int) Payment.TICKET_PRICE + ",\"movies\":[");
         for (int i = 0; i < movieList.size(); i++) {
             Movie m = movieList.get(i);
             if (i > 0) sb.append(",");

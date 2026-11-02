@@ -64,6 +64,18 @@ class Booking {
         return id;
     }
 
+    // Seat numbers of all non-cancelled bookings on a screen (used for the seat map)
+    public static ArrayList<String> bookedSeats(ArrayList<Booking> bookings, String screenName) {
+        ArrayList<String> seats = new ArrayList<>();
+        for (Booking booking : bookings) {
+            if (booking.getScreenName().equalsIgnoreCase(screenName)
+                    && !booking.getStatus().equalsIgnoreCase("Cancelled")) {
+                seats.add(booking.getSeatNumber());
+            }
+        }
+        return seats;
+    }
+
     public static boolean isSeatBooked(ArrayList<Booking> bookings, String screenName, String seatNumber) {
         for (Booking booking : bookings) {
             if (booking.getScreenName().equalsIgnoreCase(screenName)

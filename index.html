@@ -3,350 +3,350 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CinemaBook - Cinema Seat Booking System</title>
+  <title>CinemaBook - Book Movie Tickets</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1>CinemaBook</h1>
-  <p>Cinema Seat Booking System</p>
+<!-- ================= TOP BAR ================= -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="logo" data-view="home">cinema<span>book</span></button>
+
+    <form id="searchForm" class="search">
+      <input id="searchInput" type="search" placeholder="Search for movies or genres" autocomplete="off">
+    </form>
+
+    <nav class="top-right">
+      <button class="link" data-view="bookings">My Bookings</button>
+      <button id="signInBtn" class="btn small">Sign in</button>
+      <span id="userMenu" hidden>
+        <button id="userName" class="link" data-view="profile"></button>
+        <button id="signOutBtn" class="link">Sign out</button>
+      </span>
+    </nav>
+  </div>
 </header>
 
 <main>
 
-  <!-- ================= MAIN MENU ================= -->
+  <!-- ================= HOME ================= -->
   <section class="view" id="view-home">
-    <h2>Main Menu</h2>
-    <button data-view="customer">1. Customer Portal</button>
-    <button data-view="admin-login">2. Administrator Portal</button>
-    <button data-view="exit">3. Exit</button>
+    <div class="banner">
+      <h1>Book your next movie</h1>
+      <p>Pick a movie, choose your seats, and pay in a few clicks.</p>
+    </div>
+    <div class="container">
+      <div class="chips" id="languageChips"></div>
+      <div class="chips" id="genreChips"></div>
+      <div class="section-head">
+        <h2 id="homeTitle">Recommended Movies</h2>
+        <button id="clearSearch" class="link" hidden>Clear search</button>
+      </div>
+      <div id="movieGrid" class="movie-grid"></div>
+    </div>
   </section>
 
-  <!-- ================= CUSTOMER PORTAL ================= -->
-  <section class="view" id="view-customer" hidden>
-    <h2>Customer Portal</h2>
-    <button data-view="cust-profile">1. Customer Profile</button>
-    <button data-view="cust-movies">2. Movies</button>
-    <button data-view="cust-booking">3. Booking</button>
-    <button data-view="cust-payment">4. Payment</button>
-    <button class="back" data-view="home">5. Back</button>
+  <!-- ================= MOVIE + SHOWS ================= -->
+  <section class="view" id="view-movie" hidden>
+    <div class="movie-hero" id="movieHero"></div>
+    <div class="container">
+      <h2>Select a show</h2>
+      <div id="showList"></div>
+    </div>
   </section>
 
-  <!-- Customer Profile -->
-  <section class="view" id="view-cust-profile" hidden>
-    <h2>Customer Profile</h2>
+  <!-- ================= SEAT SELECTION ================= -->
+  <section class="view" id="view-seats" hidden>
+    <div class="container">
+      <button class="link" data-view="movie">&lsaquo; Back to shows</button>
+      <h2 id="seatTitle"></h2>
+      <p class="muted" id="seatSub"></p>
 
-    <form class="box" data-action="registerCustomer">
-      <h3>Register Customer</h3>
-      <label>Name <input name="name" required></label>
-      <label>Mobile Number <input name="mobile" required></label>
-      <label>Email <input name="email" required></label>
-      <button type="submit">Register</button>
-      <div class="out"></div>
-    </form>
+      <div class="screen-bar">All eyes this way, the screen is here</div>
+      <div id="seatGrid" class="seat-grid"></div>
 
-    <form class="box" data-action="updateProfile">
-      <h3>Update Profile</h3>
-      <label>Your Name (existing) <input name="name" required></label>
-      <label>New Name <input name="newName" required></label>
-      <label>New Mobile Number <input name="newMobile" required></label>
-      <label>New Email <input name="newEmail" required></label>
-      <button type="submit">Update</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="viewProfile">
-      <h3>View Profile</h3>
-      <label>Your Name <input name="name" required></label>
-      <button type="submit">View</button>
-      <div class="out"></div>
-    </form>
-
-    <button class="back" data-view="customer">Back</button>
+      <div class="legend">
+        <span><i class="seat sample"></i> Available</span>
+        <span><i class="seat sample selected"></i> Selected</span>
+        <span><i class="seat sample booked"></i> Sold</span>
+      </div>
+    </div>
+    <div class="paybar" id="payBar" hidden>
+      <span id="paySummary"></span>
+      <button id="proceedBtn" class="btn">Pay</button>
+    </div>
   </section>
 
-  <!-- Movies -->
-  <section class="view" id="view-cust-movies" hidden>
-    <h2>Movies</h2>
+  <!-- ================= CHECKOUT ================= -->
+  <section class="view" id="view-checkout" hidden>
+    <div class="container narrow">
+      <button class="link" data-view="seats">&lsaquo; Change seats</button>
+      <h2>Review your booking</h2>
+      <div class="card" id="orderSummary"></div>
 
-    <form class="box" data-action="viewMovies">
-      <h3>View Movies</h3>
-      <button type="submit">Show Movies</button>
-      <div class="out"></div>
-    </form>
+      <div class="card">
+        <h3>Payment method</h3>
+        <label class="radio"><input type="radio" name="method" value="Card" checked> Card</label>
+        <label class="radio"><input type="radio" name="method" value="UPI"> UPI</label>
+        <label class="radio"><input type="radio" name="method" value="Net Banking"> Net Banking</label>
+      </div>
 
-    <form class="box" data-action="searchMovie">
-      <h3>Search Movie</h3>
-      <label>Movie Name or Genre <input name="keyword" required></label>
-      <button type="submit">Search</button>
-      <div class="out"></div>
-    </form>
-
-    <button class="back" data-view="customer">Back</button>
+      <div class="out" id="checkoutOut"></div>
+      <button id="payNowBtn" class="btn wide">Pay</button>
+    </div>
   </section>
 
-  <!-- Booking -->
-  <section class="view" id="view-cust-booking" hidden>
-    <h2>Booking</h2>
-
-    <form class="box" data-action="bookTicket">
-      <h3>Book Ticket</h3>
-      <label>Customer Name <input name="customerName" required></label>
-      <label>Movie <select name="movieName" id="movieSelect"></select></label>
-      <label>Screen <select name="screenName" id="screenSelect"></select></label>
-      <label>Seat Number <input name="seat" required></label>
-      <button type="submit">Book Ticket</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="viewBooking">
-      <h3>View Booking</h3>
-      <label>Booking ID <input name="id" type="number" required></label>
-      <button type="submit">View</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="cancelBooking">
-      <h3>Cancel Booking</h3>
-      <label>Booking ID <input name="id" type="number" required></label>
-      <button type="submit">Cancel Booking</button>
-      <div class="out"></div>
-    </form>
-
-    <button class="back" data-view="customer">Back</button>
+  <!-- ================= TICKET ================= -->
+  <section class="view" id="view-ticket" hidden>
+    <div class="container narrow">
+      <h2 class="ok-title">Booking confirmed!</h2>
+      <p class="muted">Your payment was successful. Show these details at the theatre.</p>
+      <div id="ticketList"></div>
+      <button class="btn wide" data-view="home">Book more movies</button>
+      <button class="link" data-view="bookings">Go to My Bookings</button>
+    </div>
   </section>
 
-  <!-- Payment -->
-  <section class="view" id="view-cust-payment" hidden>
-    <h2>Payment</h2>
+  <!-- ================= MY BOOKINGS ================= -->
+  <section class="view" id="view-bookings" hidden>
+    <div class="container narrow">
+      <h2>My Bookings</h2>
+      <div id="bookingList"></div>
 
-    <form class="box" data-action="makePayment">
-      <h3>Make Payment</h3>
-      <label>Booking ID <input name="bookingId" type="number" required></label>
-      <label>Payment Method
-        <select name="method">
-          <option>Card</option>
-          <option>Net Banking</option>
-          <option>UPI</option>
-        </select>
-      </label>
-      <button type="submit">Pay</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="viewPayment">
-      <h3>View Payment</h3>
-      <label>Payment ID <input name="id" type="number" required></label>
-      <button type="submit">View</button>
-      <div class="out"></div>
-    </form>
-
-    <button class="back" data-view="customer">Back</button>
+      <h3>Look up</h3>
+      <form class="card" data-action="viewBooking">
+        <label>Booking ID <input name="id" type="number" required></label>
+        <button class="btn small" type="submit">Find booking</button>
+        <div class="out"></div>
+      </form>
+      <form class="card" data-action="viewPayment">
+        <label>Payment ID <input name="id" type="number" required></label>
+        <button class="btn small" type="submit">Find payment</button>
+        <div class="out"></div>
+      </form>
+    </div>
   </section>
 
-  <!-- ================= ADMINISTRATOR PORTAL ================= -->
+  <!-- ================= PROFILE ================= -->
+  <section class="view" id="view-profile" hidden>
+    <div class="container narrow">
+      <h2>My Profile</h2>
+      <div class="card" id="profileCard"></div>
+      <form class="card" id="profileForm">
+        <h3>Edit profile</h3>
+        <label>Name <input name="newName" required></label>
+        <label>Mobile Number <input name="newMobile" required></label>
+        <label>Email <input name="newEmail" required></label>
+        <button class="btn small" type="submit">Save changes</button>
+        <div class="out"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= ADMIN LOGIN ================= -->
   <section class="view" id="view-admin-login" hidden>
-    <h2>Administrator Login</h2>
-    <form class="box" data-action="adminLogin">
-      <label>Administrator Password <input name="password" type="password" required></label>
-      <button type="submit">Login</button>
-      <div class="out"></div>
-    </form>
-    <button class="back" data-view="home">Back</button>
+    <div class="container narrow">
+      <h2>Administrator Login</h2>
+      <form class="card" data-action="adminLogin">
+        <label>Administrator Password <input name="password" type="password" required></label>
+        <button class="btn small" type="submit">Login</button>
+        <div class="out"></div>
+      </form>
+    </div>
   </section>
 
+  <!-- ================= ADMIN PORTAL ================= -->
   <section class="view" id="view-admin" hidden>
-    <h2>Administrator Portal</h2>
-    <button data-view="admin-movies">1. Movie Management</button>
-    <button data-view="admin-screens">2. Screen Management</button>
-    <button data-view="admin-customers">3. Customer &amp; Booking</button>
-    <button data-view="admin-reports">4. Reports &amp; Analysis</button>
-    <button class="back" data-view="home">5. Logout</button>
-  </section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Administrator Portal</h2>
+        <button class="link" data-view="home">Logout</button>
+      </div>
 
-  <!-- Movie Management -->
-  <section class="view" id="view-admin-movies" hidden>
-    <h2>Movie Management</h2>
+      <div class="tabs">
+        <button class="tab active" data-tab="movies">Movies</button>
+        <button class="tab" data-tab="screens">Screens</button>
+        <button class="tab" data-tab="customers">Customers &amp; Bookings</button>
+        <button class="tab" data-tab="reports">Reports</button>
+        <button class="tab" data-tab="analysis">Analysis</button>
+      </div>
 
-    <form class="box" data-action="addMovie">
-      <h3>Add Movie</h3>
-      <label>Movie ID <input name="id" type="number" required></label>
-      <label>Movie Name <input name="name" required></label>
-      <label>Genre <input name="genre" required></label>
-      <label>Language <input name="language" required></label>
-      <label>Duration (minutes) <input name="duration" type="number" required></label>
-      <button type="submit">Add Movie</button>
-      <div class="out"></div>
-    </form>
+      <!-- Movie Management -->
+      <div class="panel" id="tab-movies">
+        <form class="card" data-action="addMovie">
+          <h3>Add Movie</h3>
+          <label>Movie ID <input name="id" type="number" required></label>
+          <label>Movie Name <input name="name" required></label>
+          <label>Genre <input name="genre" required></label>
+          <label>Language <input name="language" required></label>
+          <label>Duration (minutes) <input name="duration" type="number" required></label>
+          <button class="btn small" type="submit">Add Movie</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="updateMovie">
+          <h3>Update Movie</h3>
+          <label>Movie ID <input name="id" type="number" required></label>
+          <label>New Movie Name <input name="name" required></label>
+          <label>New Genre <input name="genre" required></label>
+          <label>New Language <input name="language" required></label>
+          <label>New Duration (minutes) <input name="duration" type="number" required></label>
+          <button class="btn small" type="submit">Update Movie</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="viewMovies">
+          <h3>View Movies</h3>
+          <button class="btn small" type="submit">Show Movies</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="searchMovie">
+          <h3>Search Movie</h3>
+          <label>Movie Name or Genre <input name="keyword" required></label>
+          <button class="btn small" type="submit">Search</button>
+          <div class="out"></div>
+        </form>
+      </div>
 
-    <form class="box" data-action="updateMovie">
-      <h3>Update Movie</h3>
-      <label>Movie ID <input name="id" type="number" required></label>
-      <label>New Movie Name <input name="name" required></label>
-      <label>New Genre <input name="genre" required></label>
-      <label>New Language <input name="language" required></label>
-      <label>New Duration (minutes) <input name="duration" type="number" required></label>
-      <button type="submit">Update Movie</button>
-      <div class="out"></div>
-    </form>
+      <!-- Screen Management -->
+      <div class="panel" id="tab-screens" hidden>
+        <form class="card" data-action="addScreen">
+          <h3>Add Screen</h3>
+          <label>Screen ID <input name="id" type="number" required></label>
+          <label>Screen Type <input name="type" required></label>
+          <label>Total Seats <input name="seats" type="number" required></label>
+          <label>Show Time <input name="time" required></label>
+          <button class="btn small" type="submit">Add Screen</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="updateScreen">
+          <h3>Update Screen</h3>
+          <label>Screen ID <input name="id" type="number" required></label>
+          <label>New Screen Type <input name="type" required></label>
+          <label>New Total Seats <input name="seats" type="number" required></label>
+          <label>New Show Time <input name="time" required></label>
+          <button class="btn small" type="submit">Update Screen</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="viewScreens">
+          <h3>View Screens</h3>
+          <button class="btn small" type="submit">Show Screens</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="searchScreen">
+          <h3>Search Screen</h3>
+          <label>Screen Type <input name="keyword" required></label>
+          <button class="btn small" type="submit">Search</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="checkAvailability">
+          <h3>Check Availability</h3>
+          <button class="btn small" type="submit">Check Availability</button>
+          <div class="out"></div>
+        </form>
+      </div>
 
-    <form class="box" data-action="viewMovies">
-      <h3>View Movies</h3>
-      <button type="submit">Show Movies</button>
-      <div class="out"></div>
-    </form>
+      <!-- Customer & Booking -->
+      <div class="panel" id="tab-customers" hidden>
+        <form class="card" data-action="searchCustomer">
+          <h3>Search Customer</h3>
+          <label>Customer Name <input name="keyword" required></label>
+          <button class="btn small" type="submit">Search</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="searchBooking">
+          <h3>Search Booking</h3>
+          <label>Customer Name or Movie Name <input name="keyword" required></label>
+          <button class="btn small" type="submit">Search</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="bookingReport">
+          <h3>View All Bookings</h3>
+          <button class="btn small" type="submit">Show All Bookings</button>
+          <div class="out"></div>
+        </form>
+      </div>
 
-    <form class="box" data-action="searchMovie">
-      <h3>Search Movie</h3>
-      <label>Movie Name or Genre <input name="keyword" required></label>
-      <button type="submit">Search</button>
-      <div class="out"></div>
-    </form>
+      <!-- Reports -->
+      <div class="panel" id="tab-reports" hidden>
+        <form class="card" data-action="movieReport">
+          <h3>Movie Report</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="bookingReport">
+          <h3>Booking Report</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="paymentReport">
+          <h3>Payment Report</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="occupancyReport">
+          <h3>Occupancy Report</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+      </div>
 
-    <button class="back" data-view="admin">Back</button>
-  </section>
-
-  <!-- Screen Management -->
-  <section class="view" id="view-admin-screens" hidden>
-    <h2>Screen Management</h2>
-
-    <form class="box" data-action="addScreen">
-      <h3>Add Screen</h3>
-      <label>Screen ID <input name="id" type="number" required></label>
-      <label>Screen Type <input name="type" required></label>
-      <label>Total Seats <input name="seats" type="number" required></label>
-      <label>Show Time <input name="time" required></label>
-      <button type="submit">Add Screen</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="updateScreen">
-      <h3>Update Screen</h3>
-      <label>Screen ID <input name="id" type="number" required></label>
-      <label>New Screen Type <input name="type" required></label>
-      <label>New Total Seats <input name="seats" type="number" required></label>
-      <label>New Show Time <input name="time" required></label>
-      <button type="submit">Update Screen</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="viewScreens">
-      <h3>View Screens</h3>
-      <button type="submit">Show Screens</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="checkAvailability">
-      <h3>Check Availability</h3>
-      <button type="submit">Check Availability</button>
-      <div class="out"></div>
-    </form>
-
-    <button class="back" data-view="admin">Back</button>
-  </section>
-
-  <!-- Customer & Booking -->
-  <section class="view" id="view-admin-customers" hidden>
-    <h2>Customer &amp; Booking</h2>
-
-    <form class="box" data-action="searchCustomer">
-      <h3>Search Customer</h3>
-      <label>Customer Name <input name="keyword" required></label>
-      <button type="submit">Search</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="searchBooking">
-      <h3>Search Booking</h3>
-      <label>Customer Name or Movie Name <input name="keyword" required></label>
-      <button type="submit">Search</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="bookingReport">
-      <h3>View All Bookings</h3>
-      <button type="submit">Show All Bookings</button>
-      <div class="out"></div>
-    </form>
-
-    <button class="back" data-view="admin">Back</button>
-  </section>
-
-  <!-- Reports & Analysis -->
-  <section class="view" id="view-admin-reports" hidden>
-    <h2>Reports &amp; Analysis</h2>
-
-    <form class="box" data-action="movieReport">
-      <h3>Movie Report</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="bookingReport">
-      <h3>Booking Report</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="paymentReport">
-      <h3>Payment Report</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="occupancyReport">
-      <h3>Occupancy Report</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <button data-view="admin-analysis">Cinema Analysis</button>
-    <button class="back" data-view="admin">Back</button>
-  </section>
-
-  <!-- Cinema Analysis -->
-  <section class="view" id="view-admin-analysis" hidden>
-    <h2>Cinema Analysis</h2>
-
-    <form class="box" data-action="totalRevenue">
-      <h3>Total Revenue</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="mostBookedMovie">
-      <h3>Most Booked Movie</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="occupancyAnalysis">
-      <h3>Occupancy Analysis</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <form class="box" data-action="overallSummary">
-      <h3>Overall Summary</h3>
-      <button type="submit">Show</button>
-      <div class="out"></div>
-    </form>
-
-    <button class="back" data-view="admin-reports">Back</button>
-  </section>
-
-  <!-- ================= EXIT ================= -->
-  <section class="view" id="view-exit" hidden>
-    <h2>Thank you for using the Cinema Seat Booking System.</h2>
-    <button data-view="home">Back to Main Menu</button>
+      <!-- Cinema Analysis -->
+      <div class="panel" id="tab-analysis" hidden>
+        <form class="card" data-action="totalRevenue">
+          <h3>Total Revenue</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="mostBookedMovie">
+          <h3>Most Booked Movie</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="occupancyAnalysis">
+          <h3>Occupancy Analysis</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+        <form class="card" data-action="overallSummary">
+          <h3>Overall Summary</h3>
+          <button class="btn small" type="submit">Show</button>
+          <div class="out"></div>
+        </form>
+      </div>
+    </div>
   </section>
 
 </main>
 
 <footer>
-  K L University &middot; Project Based Lab Report &middot; Problem Solving using Programming (JAVA)
+  <p>CinemaBook &middot; K L University &middot; Project Based Lab Report &middot; Problem Solving using Programming (JAVA)</p>
+  <button class="link" data-view="admin-login">Administrator</button>
 </footer>
+
+<!-- ================= SIGN IN / REGISTER ================= -->
+<dialog id="authDialog">
+  <button type="button" class="close" id="authClose" aria-label="Close">&times;</button>
+
+  <h3>Sign in</h3>
+  <form id="signInForm">
+    <label>Your name <input name="name" required></label>
+    <button class="btn wide" type="submit">Continue</button>
+    <div class="out"></div>
+  </form>
+
+  <hr>
+
+  <h3>New here? Register</h3>
+  <form id="registerForm">
+    <label>Name <input name="name" required></label>
+    <label>Mobile Number <input name="mobile" required></label>
+    <label>Email <input name="email" required></label>
+    <button class="btn wide" type="submit">Register</button>
+    <div class="out"></div>
+  </form>
+</dialog>
+
+<div id="toast" class="toast" hidden></div>
 
 <script src="script.js"></script>
 </body>

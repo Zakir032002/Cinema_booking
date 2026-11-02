@@ -1,8 +1,8 @@
 # CinemaBook - Cinema Seat Booking System
 
 - **Backend:** the Java project (`backend/`), run as a small web server.
-- **Front end:** HTML, CSS and JavaScript (`index.html`, `style.css`, `script.js`).
-  It only shows the forms and sends them to the Java backend.
+- **Front end:** HTML, CSS and JavaScript (`index.html`, `style.css`, `script.js`), styled like an
+  online movie-ticket site. It only shows the pages and sends requests to the Java backend.
 
 ```
 Browser (index.html + script.js)  --POST /api/<action>-->  Java backend  --JSON-->  Browser
@@ -27,6 +27,20 @@ Browser (index.html + script.js)  --POST /api/<action>-->  Java backend  --JSON-
 
 If the backend runs on another address or port, change `API_URL` at the top of `script.js`.
 The port can be changed with the `PORT` environment variable.
+
+## How to use the website
+
+1. **Home** - browse the movies, filter by language / genre, or search by name / genre.
+2. **Movie page** - choose a show (screen and time). Free seats are shown for each show.
+3. **Seat map** - click seats (up to 10). Sold seats are grey.
+4. **Pay** - sign in or register when asked, choose Card / UPI / Net Banking and pay.
+   Each seat becomes one booking and one payment (Rs. 250 each).
+5. **My Bookings** - see your tickets, pay a pending booking, cancel a booking, or look up a
+   booking / payment by ID. **Profile** - view and update your details.
+6. **Administrator** (link in the footer, password `admin123`) - movie and screen management,
+   customer and booking search, reports and analysis.
+
+Signing in only needs the customer's name (as in the Java project, customers are found by name).
 
 ## Java classes (`backend/src/javaProject`)
 
