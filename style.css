@@ -1,0 +1,130 @@
+/* Minimal styling for CinemaBook */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+  color: #222;
+}
+
+header {
+  background: #7a1c1c;
+  color: white;
+  text-align: center;
+  padding: 16px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+header p {
+  margin: 4px 0 0;
+}
+
+main {
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 0 16px;
+}
+
+h2 {
+  border-bottom: 2px solid #7a1c1c;
+  padding-bottom: 6px;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+/* Menu buttons */
+button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  font-size: 16px;
+  color: white;
+  background: #7a1c1c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #5c1414;
+}
+
+button.back {
+  background: #666;
+}
+
+button.back:hover {
+  background: #444;
+}
+
+/* Forms */
+.box {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+input,
+select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 8px;
+  font-size: 15px;
+}
+
+/* Results */
+.out {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.ok {
+  color: #1b6e1b;
+  font-weight: bold;
+}
+
+.error {
+  color: #b00020;
+  font-weight: bold;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  text-align: left;
+}
+
+th {
+  background: #eee;
+}
+
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  padding: 16px;
+}
